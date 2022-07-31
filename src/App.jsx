@@ -124,18 +124,18 @@ function App() {
       </header>
       <div className="container-fluid h-100">
 
-<div className="d-flex ">
+<div className="card-holder">
 
       {events.map((event,i)=>{
         // console.log(event);
-        return <div key={i} className='bg-warning w-50 rounded p-3 m-4'>
+        return <div key={i} className=' d-flex  flex-column justify-content-between   rounded p-3 m-4 cards'>
           <h1>{event.title}</h1>
           <p>{event.description}</p>
           <p>{event.date}</p>
           <p>{event.House}</p>
             <p>{event.user}</p>
           {isAdmin ?
-          <Button variant="danger" onClick={()=>{
+          <Button  variant="danger" onClick={()=>{
             setEvents(events.filter((event,index)=>{
               return index !== i
             }))
