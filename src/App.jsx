@@ -65,6 +65,7 @@ function App() {
   }
   function handleSubmit(e){
     e.preventDefault();
+    if(title && description && date && House){
     setEvents([...events,{title,description,date,House,isAdmin,user}]);
     setTimeout(() => {
 
@@ -78,6 +79,12 @@ function App() {
     setUser('');
     handleClose();
   }
+  else{
+    alert("Please fill in all the fields");
+  }
+  
+}
+
 
   
   
@@ -115,7 +122,7 @@ function App() {
           Create Event
         </Button>
 
-        <div className="pass">
+        <div className="pass d-flex ">
           <input type="text" value={password} placeholder="Enter Password" onChange={handlePassword}/>
         <Button onClick={handleLogin}>Login</Button>
         </div>
@@ -167,13 +174,13 @@ function App() {
         <Modal.Body>
       
             
-      
-    
-      <input type="text" placeholder="title" onChange={handleTitle} />
-      <input type="text" placeholder="description" onChange={handleDescription} />
-      <input type="date" placeholder="date" onChange={handleDate} />
+      <div className="flex-box flex-column modal-body">    
+      <input type="text" placeholder="Tile" onChange={handleTitle} />
+      <input type="text" placeholder="Description" onChange={handleDescription} />
+      <input type="date" placeholder="Date" onChange={handleDate} />
       <input type="text" placeholder="House" onChange={handleHouse} />
       <input type="text" placeholder="User" onChange={handleUser} />
+      </div>
       
 
       
