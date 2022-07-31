@@ -41,11 +41,19 @@ function App() {
   const [House, setHouse] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState('');
+  const [password, setPassword] = useState('');
 
   
 
   function handleTitle(e){
     setTitle(e.target.value);
+  }
+  function handleHouse(e){
+    setHouse(e.target.value);
+  }
+
+  function handleUser(e){
+    setUser(e.target.value);
   }
   function handleDescription(e){
     setDescription(e.target.value);
@@ -55,32 +63,36 @@ function App() {
   }
   function handleSubmit(e){
     e.preventDefault();
-    handleAdmin(user);
-
     setEvents([...events,{title,description,date,House,isAdmin,user}]);
     setTitle('');
     setDescription('');
     setDate('');
     setHouse('');
-    setIsAdmin(false);
+    
     setUser('');
     handleClose();
   }
 
-  function handleHouse(e){
-    setHouse(e.target.value);
-  }
+  
+  
+ function handlePassword(e){
+   setPassword(e.target.value);
+ }
 
-  function handleUser(e){
-    setUser(e.target.value);
-  }
-  function handleAdmin(user){
-    if(user == "admin"){
+ function handleLogin(e){
+
+    e.preventDefault();
+    if(password === "admin"){
       setIsAdmin(true);
+      return;
+    }
+    else{
+      setIsAdmin(false);
+      window.alert("Invalid Password");
+      setPassword('');
+      return;
     }
   }
-
-
 
   
 
@@ -88,34 +100,42 @@ function App() {
   return (
     <div className="App">
 
-      <header className="App-header">
+      <header className="App-header d-flex justify-content-between ">
         Game of Thrones Events 
 
         
         <Button variant="primary" onClick={handleShow}>
           Create Event
         </Button>
+
+        <div className="pass">
+          <input type="text" placeholder="Enter Password" onChange={handlePassword}/>
+        <Button onClick={handleLogin}>Login</Button>
+        </div>
+
+
       </header>
       <div className="container-fluid h-100">
 
 <div className="d-flex ">
 
       {events.map((event,i)=>{
-        console.log(event);
+        // console.log(event);
         return <div key={i} className='bg-warning w-50 rounded p-3 m-4'>
           <h1>{event.title}</h1>
           <p>{event.description}</p>
           <p>{event.date}</p>
           <p>{event.House}</p>
             <p>{event.user}</p>
-          Show Admin: {event.isAdmin ? "Yes" : "No"}
+          {isAdmin ?
+          <Button variant="danger" onClick={()=>{
+            setEvents(events.filter((event,index)=>{
+              return index !== i
+            }))
+          }
+        }>Delete</Button>  : <><span>Only admins can delete the event</span></>}
           
-                    <Button variant="danger" onClick={()=>{
-                      setEvents(events.filter((event,index)=>{
-                        return index !== i
-                      }))
-                    }
-                  }>Delete</Button>
+                    
 
         </div>
 
