@@ -10,7 +10,9 @@ import Modal from 'react-bootstrap/Modal';
 
 function App() {
   
-  const[events,setEvents] = useState([]);
+  const[events,setEvents] = useState(
+    localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [],
+  );
   const users =[
     {
       //house of lanister
@@ -64,6 +66,10 @@ function App() {
   function handleSubmit(e){
     e.preventDefault();
     setEvents([...events,{title,description,date,House,isAdmin,user}]);
+    setTimeout(() => {
+
+    localStorage.setItem("events",JSON.stringify([...events,{title,description,date,House,isAdmin,user}]));
+    }, 1000);
     setTitle('');
     setDescription('');
     setDate('');
@@ -84,6 +90,7 @@ function App() {
     e.preventDefault();
     if(password === "admin"){
       setIsAdmin(true);
+      setPassword('');
       return;
     }
     else{
@@ -109,7 +116,7 @@ function App() {
         </Button>
 
         <div className="pass">
-          <input type="text" placeholder="Enter Password" onChange={handlePassword}/>
+          <input type="text" value={password} placeholder="Enter Password" onChange={handlePassword}/>
         <Button onClick={handleLogin}>Login</Button>
         </div>
 
@@ -132,6 +139,10 @@ function App() {
             setEvents(events.filter((event,index)=>{
               return index !== i
             }))
+            localStorage.setItem("events",JSON.stringify(events.filter((event,index)=>{
+              return index !== i
+            }
+            )));
           }
         }>Delete</Button>  : <><span>Only admins can delete the event</span></>}
           
